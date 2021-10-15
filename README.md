@@ -1,4 +1,4 @@
-# Final Project Programming Languages - Image Processing
+# Final Project Programming Languages - Instagram Filter simulator
 
 * Isaac Garza Strimlingas - A01025798
 * Abraham García del Corral - A01023256
