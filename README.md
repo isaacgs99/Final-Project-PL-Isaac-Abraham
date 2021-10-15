@@ -39,5 +39,9 @@ For each pixel, we will have 3 colors (red, green and blue) and each color chann
 ### Colored to grayscale 
 As in colored to negative, the program will read 3 bytes corresponding to the R G B channels. Then for each channel, apply the corresponding formula to grayscale (R * 0.21 + G * 0.71 + B * 0.07) and save the result in the output list. 
 
+## References
 
-
+* [Color Calculations by NVIDIA](http://harmanani.github.io/classes/csc447/Notes/Lecture16.pdf)
+* [Colored to negative](https://dyclassroom.com/image-processing-project/how-to-convert-a-color-image-into-negative)
+* [Joy of Elixir](https://joyofelixir.com/toc.html)
+* [Elixir Documentation](https://hexdocs.pm/elixir/Kernel.htm)
