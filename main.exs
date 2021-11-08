@@ -25,6 +25,7 @@ defmodule Image do
     header = String.slice(file,0..54)
 
     pixels = for <<r::8, g::8, b::8 <- String.slice(file,54..String.length(file)-1)>>, do: {r, g, b}
-    makeNeg(pixels)
+    newNegative = makeNeg(pixels)
+    negBits = [header | newNegative]
   end
 end
