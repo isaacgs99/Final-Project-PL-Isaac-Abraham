@@ -7,7 +7,7 @@ defmodule Image do
 
   def write(list) do
     file= File.open!("img_neg.bmp", [:write])
-    IO.write(file, list)
+    IO.binwrite(file, list)
     File.close(file)
   end
 
@@ -21,18 +21,24 @@ defmodule Image do
                       val + 255
                     end 
                   end
-                end
+    end
   end
 
   def main() do
-    path = "img_2.bmp"
+    path = "../../img_2.bmp"
     file = read(path)
-
+    write(file)
     header = String.slice(file,0..54)
+    IO.inspect(header)
     rest = String.slice(file,54..String.length(file)-1)
+    IO.inspect(rest)
     pixels = for <<r::8, g::8, b::8 <- String.slice(file,54..String.length(file)-1)>>, do: {r, g, b}
     newNegative = makeNeg(pixels)
-    negBits = [header | newNegative]
-    write(negBits)
+    lista=List.flatten(newNegative)
+    l=Enum.into(lista,<<>>, fn bit -> <<bit :: 1>> end)
+    is_binary(l)
+
+    #negBits = [header | newNegative]
+    #write(negBits)
   end
 end
