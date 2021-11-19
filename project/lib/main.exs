@@ -12,33 +12,29 @@ defmodule Image do
   end
 
   def makeNeg(pixels) do
-    newPixels = for tuple <- pixels do
-                  newList = Tuple.to_list(tuple)
-                  for val <- newList do
-                    if val > 0 do
-                      val - 255
-                    else
-                      val + 255
-                    end 
-                  end
+    newPixels = for <<i <- pixels >> do
+      if i > 0 do
+        i - 255
+      else
+        i + 255
+      end
     end
   end
 
   def main() do
-    path = "../../img_2.bmp"
+    path = "../../snail.bmp"
     file = read(path)
-    write(file)
-    header = String.slice(file,0..54)
-    IO.inspect(header)
-    rest = String.slice(file,54..String.length(file)-1)
-    IO.inspect(rest)
-    pixels = for <<r::8, g::8, b::8 <- String.slice(file,54..String.length(file)-1)>>, do: {r, g, b}
-    newNegative = makeNeg(pixels)
-    lista=List.flatten(newNegative)
-    l=Enum.into(lista,<<>>, fn bit -> <<bit :: 1>> end)
-    is_binary(l)
 
-    #negBits = [header | newNegative]
-    #write(negBits)
+
+    header = String.slice(file,0..54)
+    rest = String.slice(file,54..String.length(file)-1)
+
+    newNegative = makeNeg(rest)
+
+    bin = Enum.into(newNegative,<<>>, fn bit -> <<bit :: 8>> end)
+
+    negBits = <<header::binary, bin::binary>>
+    
+    write(negBits)
   end
 end
