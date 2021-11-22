@@ -1,8 +1,12 @@
+# Final Project: Instagram Filter simulator
+# Isaac Garza and Abraham García del Corral
+# 10-nov-2021
+
 defmodule Image do
 
   def read(path) do
     file = File.open!(path, [:read, :binary])
-    bm = IO.binread(file, :all)
+    _bm = IO.binread(file, :all)
   end
 
   def write(list, name) do
@@ -12,7 +16,7 @@ defmodule Image do
   end
 
   def makeNeg(pixels) do
-    newPixels = for <<i <- pixels >> do
+    _newPixels = for <<i <- pixels >> do
         255 - i
     end
   end
@@ -22,9 +26,16 @@ defmodule Image do
           255
       else
           val
+      end
   end
 
-    
+
+  def check0?(val) do
+      if val == 0 do 
+          val
+      else
+          255
+      end
   end
 
   def makeSep(pixels) do
@@ -46,6 +57,20 @@ defmodule Image do
                   [res3,res3,res3]
                 end
     List.flatten(newPixels)
+  end
+
+  def mirror(pixels) do
+    revPixels = Enum.reverse(pixels)
+    newPixels = for {r,g,b} <- revPixels do
+                  [g,b,r]
+                end
+    List.flatten(newPixels)
+  end
+
+  def mask(pixels) do
+    _newPixels = for <<i <- pixels >> do
+        check0?(i)
+    end
   end
 
   def main() do
@@ -84,5 +109,25 @@ defmodule Image do
     sepBits = <<header::binary, bin3::binary>>
 
     write(sepBits, "img_sep.bmp")
+
+    # Mirror Image
+
+    newMirror = mirror(pixels)
+
+    bin4 = Enum.into(newMirror,<<>>, fn bit -> <<bit :: 8>> end)
+
+    mirrBits = <<header::binary, bin4::binary>>
+
+    write(mirrBits, "img_mirror.bmp")
+
+   # Mask Image 
+
+    newMask = mask(bin2)
+
+    bin5 = Enum.into(newMask,<<>>, fn bit -> <<bit :: 8>> end)
+
+    maskBits = <<header::binary, bin5::binary>>
+
+    write(maskBits, "img_mask.bmp")
   end
 end
