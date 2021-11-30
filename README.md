@@ -33,11 +33,53 @@ Outer list => image matrix
     [ [],[],[] ]
 ]
 ```
+<p align="center">
+  <img src="examples/img.bmp"alt="Negative" width="300" height = "300">.
+</p>
+
 ### Colored to negative
 For each pixel, we will have 3 colors (red, green and blue) and each color channel are 1 byte long (8 bits), so the equivalent value on decimal base will range from 255 to 0. In order to make an image negative, the function will save each byte, convert it into decimal and make a decision based on the following condition; if the values ranges from 255 to 1, it will have to substract value from 255. in case the value is 0, it will have to add 255 to the value.
 
+<p align="center">
+  <img src="examples/img_neg.bmp"alt="Negative" width="300" height = "300">.
+</p>
+
+
 ### Colored to grayscale 
 As in colored to negative, the program will read 3 bytes corresponding to the R G B channels. Then for each channel, apply the corresponding formula to grayscale (R * 0.21 + G * 0.71 + B * 0.07) and save the result in the output list. 
+
+<p align="center">
+  <img src="examples/img_bw.bmp"alt="GrayScale" width="300" height = "300">.
+</p>
+
+### Sepia
+Sepia filter uses the same structure as negative and colored. The program reads 3 bytes according to channels. The main difference is the formula used which in this case is the following:
+
+SepiaR = (0.393 * R) + (0.769 * G) + (0.189 * B)
+
+SepiaG = (0.349 * R) + (0.686 * G) + (0.168 * B)
+
+SepiaB = (0.272 * R) + (0.534 * G) + (0.131 * B)
+
+Then each result is compared with 255, if is greater than 255, the result value will be 255. Otherwise it remains like that. Then each result is saved in the output list.
+
+<p align="center">
+  <img src="examples/img_sep.bmp"alt="Sepia" width="300" height = "300">.
+</p>
+
+### Mirror
+The mirror function changes the order of the pixels, i.e. for each {R, G, B} it will return {G, B, R}
+
+<p align="center">
+  <img src="examples/img_mirror.bmp"alt="Mirror" width="300" height = "300">.
+</p>
+
+### Mask
+Mask function looks for each pixel which value is different from 0 (Black), and changes it to 255 (White). By doing this we get a silhouette.
+
+<p align="center">
+  <img src="examples/img_mask.bmp"alt="Mask" width="300" height = "300">.
+</p>
 
 ## References
 
