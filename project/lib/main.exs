@@ -56,7 +56,7 @@ defmodule Image do
   # Aux function that checks if the value received is zero or not.
   # Used by the mask function
   defp check0?(val) do
-      if val == 0 do 
+      if val < 30 do 
           val
       else
           255
@@ -121,8 +121,7 @@ defmodule Image do
   end
 
 
-  def main() do
-    path = "../../img.bmp"
+  def main(path) do
     file = read(path)
 
     # Negative Image
