@@ -6,33 +6,37 @@
 ## Project Topic
 
 Image processing is a set of techniques used for altering an image integrity. An image viewed from the perspective of a computer is in reality a set of bytes (bytes are a set of 8 bits and a bit can be a 1 or a 0), that translates into three different colors: red, green and blue, that combined can make almost every color. 
-In this project, we want to process different colored images in a special format called ```.bmp``` (windows bitmap), a type of file that contains a map of bits or in simpler terms a matrix of bits, and convert it into different types of image (for example, grayscale or sepia).  
+In this project, we want to process different colored images in a special format called `bmp` (windows bitmap), a type of file that contains a map of bits or in simpler terms a matrix of bits, and convert it into different types of image (for example, grayscale or sepia).  
 
 
 ## Language
 
-```Elixir```
-
+``Elixir``
 
 ## Solution
 
-The program will read the bmp format image and store the value of the bitmap in a list, in order to process it (<b>File I/O</b>). Then using (<b>recursion or list comprehension</b>), to access the pixels of the image and modify them according to the filter desired (grayscale, negative). As in functional programming variables are not mutable, the modified pixels will be stored in another list, and finally the program will write the modified list in an output bmp file.
-The program will read the first 54 bytes which corresponds to the header of the image. This bytes contain metadata of the image and have to be the same in order to let the OS what type of file is.
-The data structure that the solution will be using is a matrix of a list of lists:
 
-```
-Outer list => image matrix
-    inner lists => pixel
-        1st deep inner lists => Red
-        2nd deep inner lists => Green
-        3rd deep inner lists => Blue
+The program will read the bmp format image and store its initial value as binary (<b>File I/O</b>).
+As a second step, the program will read the first 54 bytes which corresponds to the header of the image. This bytes contain metadata of the image and have to be the same in order to let the OS what type of file is. 
 
-[ 
-    [ [],[],[] ],
-    [ [],[],[] ],
-    [ [],[],[] ]
-]
-```
+Depending on the filter or function used, the initial type of data changes. For instance in the negative function, the input is the raw binary data. On the other hand, the grasycale function uses a tuple of {R,G,B} corresponding to the channels of a colored image. So, each channel has to read 8 bits from the raw binary data in order to work as a channel.(<b>Comprehension</b>) is used in order to
+create these tuples and iterate over them. Also the program uses comprehension again in order to convert the resulting list of the functions into binary again.
+The program takes this binary data in order to write into the output file.
+
+``````
+Binary data is represented like:
+
+<<104, 101, 196, 194, 0 ..>>
+Used in negative method
+
+
+Binary data converted in order to match a single byte and represent the RGB channels
+
+<<104, 101, 196, 194, 0 ..>>  -> <<r::8, g::8, b::8>>
+Used in grayscale method, after the match of a byte size, it is converted into a tuple.
+``````
+
+### Sample image
 <p align="center">
   <img src="examples/img.bmp"alt="Negative" width="300" height = "300">.
 </p>
